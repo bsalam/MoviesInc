@@ -1,0 +1,11 @@
+package com.bassam.moviesinc.api.data
+
+
+import com.google.gson.annotations.SerializedName
+
+data class ProductionCountry(
+    @SerializedName("iso_3166_1")
+    val iso31661: String,
+    @SerializedName("name")
+    val name: String
+)
