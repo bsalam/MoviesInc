@@ -1,3 +1,4 @@
 # MoviesInc
-username: bhamada
-password: 123456
+## Login info ##
+- username: bhamada
+- password: 123456
