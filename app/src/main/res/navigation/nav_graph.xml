@@ -23,7 +23,7 @@
         tools:layout="@layout/login_fragment" />
     <fragment
         android:id="@+id/movieItemFragment"
-        android:name="com.bassam.moviesinc.ui.list.MovieItemFragment"
+        android:name="com.bassam.moviesinc.ui.list.MovieItemListFragment"
         android:label="fragment_movie_item_list"
         tools:layout="@layout/fragment_movie_item_list" >
         <action

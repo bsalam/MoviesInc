@@ -1,24 +1,34 @@
 package com.bassam.moviesinc.ui.splash
 
-import android.os.Handler
-import androidx.lifecycle.MutableLiveData
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.bassam.moviesinc.utils.OneTimeEvent
-import com.bassam.moviesinc.utils.toOneTimeEvent
+import androidx.lifecycle.viewModelScope
+import com.bassam.moviesinc.interactors.SplashInteractor
+import com.bassam.moviesinc.utils.SingleLiveEvent
+import kotlinx.coroutines.launch
 
-class SplashViewModel : ViewModel() {
+/**
+ * Created by Bassam Hamada on 7/7/20.
+ */
+class SplashViewModel @ViewModelInject constructor(splashInteractor: SplashInteractor) :
+    ViewModel() {
 
-    private val splashDelay = 3000L
+    private val navigateNext = SingleLiveEvent<Boolean>()
 
-    private val ready = MutableLiveData<OneTimeEvent<Any>>()
+    data class ViewState(
+        val isLoading: Boolean = false,
+        val url: String? = "test"
+    )
 
     init {
-        Handler().postDelayed({
-            ready.postValue({}.toOneTimeEvent())
-        }, splashDelay)
+        viewModelScope.launch {
+            splashInteractor.delay()
+            navigateNext.postValue(true)
+        }
     }
 
-    fun isReady(): MutableLiveData<OneTimeEvent<Any>> {
-        return ready
+    fun isNavigateNext(): LiveData<Boolean> {
+        return navigateNext
     }
 }

@@ -10,14 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bassam.moviesinc.R
 import com.bassam.moviesinc.utils.Extensions.enableFullScreen
-import com.bassam.moviesinc.utils.consume
+import dagger.hilt.android.AndroidEntryPoint
 
-
+/**
+ * Created by Bassam Hamada on 7/7/20.
+ */
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = SplashFragment()
-    }
 
     private val viewModel: SplashViewModel by viewModels()
 
@@ -31,12 +30,10 @@ class SplashFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        enableFullScreen(true);
+        enableFullScreen(true)
 
-        viewModel.isReady().observe(viewLifecycleOwner, Observer {
-            it.consume {
-                findNavController().navigate(R.id.action_splashFragment_to_movieItemFragment)
-            }
+        viewModel.isNavigateNext().observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(R.id.action_splashFragment_to_movieItemFragment)
         })
     }
 

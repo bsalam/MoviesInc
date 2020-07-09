@@ -1,21 +1,29 @@
 package com.bassam.moviesinc.ui.list
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bassam.moviesinc.R
 import com.bassam.moviesinc.ui.list.dummy.DummyContent
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
+ * Created by Bassam Hamada on 7/7/20.
+ *
  * A fragment representing a list of Items.
  */
-class MovieItemFragment : Fragment() {
+@AndroidEntryPoint
+class MovieItemListFragment : Fragment() {
+
+    private val viewModel: MovieItemListViewModel by viewModels()
 
     private var columnCount = 2
 
@@ -25,6 +33,14 @@ class MovieItemFragment : Fragment() {
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.shouldShowLogin().observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(R.id.loginFragment)
+        })
     }
 
     override fun onCreateView(
@@ -54,7 +70,7 @@ class MovieItemFragment : Fragment() {
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            MovieItemFragment().apply {
+            MovieItemListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }

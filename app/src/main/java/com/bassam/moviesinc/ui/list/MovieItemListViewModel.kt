@@ -1,19 +1,31 @@
 package com.bassam.moviesinc.ui.list
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bassam.moviesinc.utils.OneTimeEvent
-import com.bassam.moviesinc.utils.toOneTimeEvent
+import androidx.lifecycle.viewModelScope
+import com.bassam.moviesinc.interactors.AuthInteractor
+import com.bassam.moviesinc.utils.SingleLiveEvent
+import kotlinx.coroutines.launch
 
-class MovieItemListViewModel : ViewModel() {
+/**
+ * Created by Bassam Hamada on 7/7/20.
+ */
+class MovieItemListViewModel @ViewModelInject constructor(authInteractor: AuthInteractor) :
+    ViewModel() {
 
-    private val showLogin = MutableLiveData<OneTimeEvent<Any>>()
+    private val showLogin = SingleLiveEvent<Boolean>()
 
     init {
-        showLogin.postValue({}.toOneTimeEvent())
+
+        viewModelScope.launch {
+            if (!authInteractor.isAuth()) {
+                showLogin.postValue(true)
+            }
+        }
     }
 
-    fun shouldShowLogin(): MutableLiveData<OneTimeEvent<Any>> {
+    fun shouldShowLogin(): MutableLiveData<Boolean> {
         return showLogin
     }
 }

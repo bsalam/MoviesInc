@@ -10,6 +10,8 @@ import com.bassam.moviesinc.R
 import com.bassam.moviesinc.ui.list.dummy.DummyContent.DummyItem
 
 /**
+ * Created by Bassam Hamada on 7/7/20.
+ *
  * [RecyclerView.Adapter] that can display a [DummyItem].
  * TODO: Replace the implementation with code for your data type.
  */
