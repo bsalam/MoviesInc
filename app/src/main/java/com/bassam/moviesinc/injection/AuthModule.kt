@@ -3,8 +3,8 @@ package com.bassam.moviesinc.injection
 import android.content.Context
 import android.content.SharedPreferences
 import com.bassam.moviesinc.api.MovieApi
-import com.bassam.moviesinc.interactors.AuthInteractor
-import com.bassam.moviesinc.interactors.AuthInteractorImpl
+import com.bassam.moviesinc.interactors.Auth
+import com.bassam.moviesinc.interactors.AuthImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,14 +16,14 @@ import dagger.hilt.android.qualifiers.ApplicationContext
  */
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-object AuthInteractorModule {
+object AuthModule {
 
     @Provides
     fun provideAuthInteractor(
         @ApplicationContext appContext: Context,
         movieApi: MovieApi,
         sharedPreferences: SharedPreferences
-    ): AuthInteractor {
-        return AuthInteractorImpl(appContext, movieApi, sharedPreferences)
+    ): Auth {
+        return AuthImpl(appContext, movieApi, sharedPreferences)
     }
 }

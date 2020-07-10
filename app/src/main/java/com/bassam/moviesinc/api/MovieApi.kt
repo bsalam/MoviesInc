@@ -29,7 +29,7 @@ interface MovieApi {
     @GET("3/movie/now_playing")
     suspend fun nowPlaying(
         @Query("language") lang: String = DEF_LANG,
-        @Query("page") action: Int = DEF_PAGE
+        @Query("page") page: Int = DEF_PAGE
     ): NowPlayingRes
 
     // details
@@ -39,12 +39,19 @@ interface MovieApi {
         @Query("language") lang: String = DEF_LANG
     ): DetailsRes
 
+    // credits
+    @GET("3/movie/{movie_id}/credits")
+    suspend fun credits(
+        @Path("movie_id", encoded = true) movieId: String,
+        @Query("language") lang: String = DEF_LANG
+    ): CreditsRes
+
     // recommendation
     @GET("3/movie/{movie_id}/recommendations")
     suspend fun recommendations(
         @Path("movie_id", encoded = true) movieId: String,
         @Query("language") lang: String = DEF_LANG,
-        @Query("page") action: Int = DEF_PAGE
+        @Query("page") page: Int = DEF_PAGE
     ): RecommendationsRes
 
     // rate
@@ -70,6 +77,6 @@ interface MovieApi {
         @Query("session_id") sessionId: String,
         @Query("language") lang: String = DEF_LANG,
         @Query("sort_by") sortedBy: String = "created_at.asc",
-        @Query("page") action: Int = DEF_PAGE
+        @Query("page") page: Int = DEF_PAGE
     ): FavRes
 }

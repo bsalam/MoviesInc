@@ -16,19 +16,21 @@ import javax.inject.Inject
 /**
  * Created by Bassam Hamada on 7/7/20.
  */
-interface AuthInteractor {
+interface Auth {
     suspend fun isAuth(): Boolean
     suspend fun getApproveUrl(): String
     suspend fun isUrlApproved(url: String): Boolean
     suspend fun completeAuth()
+    suspend fun getSessionId(): String
+    suspend fun getAccountId(): String
 }
 
-class AuthInteractorImpl @Inject constructor(
+class AuthImpl @Inject constructor(
     private var context: Context,
     private val client: MovieApi,
     private val sharedPreferences: SharedPreferences
 ) :
-    AuthInteractor {
+    Auth {
 
     companion object {
         private const val APPROVE_URL = "https://www.themoviedb.org/auth/access?request_token="
@@ -42,7 +44,7 @@ class AuthInteractorImpl @Inject constructor(
      * is user authenticated
      */
     override suspend fun isAuth(): Boolean = withContext(Dispatchers.IO) {
-        sharedPreferences.getString(context.getString(R.string.pref_session_id_key), null) != null
+        getSessionId().isNotEmpty()
     }
 
     /**
@@ -102,5 +104,13 @@ class AuthInteractorImpl @Inject constructor(
         }
 
         return@withContext
+    }
+
+    override suspend fun getSessionId(): String {
+        return sharedPreferences.getString(context.getString(R.string.pref_session_id_key), "")!!
+    }
+
+    override suspend fun getAccountId(): String {
+        return sharedPreferences.getString(context.getString(R.string.pref_account_id_key), "")!!
     }
 }

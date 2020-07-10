@@ -57,19 +57,14 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
     private fun render(savedInstanceState: Bundle?) {
 
-//        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
-//            when (it) {
-//                true -> showProgress()
-//                false -> dismissProgress()
-//            }
-//        })
-
         viewModel.url.observe(viewLifecycleOwner, Observer {
             it?.let { loginWebView.loadUrl(it) }
         })
 
         viewModel.navigateNext.observe(viewLifecycleOwner, Observer {
             if (it) {
+
+//                val bundle = bundleOf(getString(R.string.bundle_is_fav_key) to true)
                 findNavController().navigate(
                     R.id.movieItemListFragment,
                     savedInstanceState,
@@ -91,7 +86,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     }
 
     override fun showLoading(show: Boolean) {
-
+        super.showLoading(show)
     }
 
 }

@@ -25,5 +25,7 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
         })
     }
 
-    abstract fun showLoading(show: Boolean)
+    open fun showLoading(show: Boolean) {
+
+    }
 }

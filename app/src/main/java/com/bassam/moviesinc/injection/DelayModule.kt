@@ -1,7 +1,7 @@
 package com.bassam.moviesinc.injection
 
-import com.bassam.moviesinc.interactors.SplashInteractor
-import com.bassam.moviesinc.interactors.SplashInteractorImpl
+import com.bassam.moviesinc.interactors.Delay
+import com.bassam.moviesinc.interactors.DelayImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,10 +12,10 @@ import dagger.hilt.android.components.ActivityRetainedComponent
  */
 @Module
 @InstallIn(ActivityRetainedComponent::class)
-object SplashInteractorModule {
+object DelayModule {
 
     @Provides
-    fun provideSplashInteractor(): SplashInteractor {
-        return SplashInteractorImpl()
+    fun provideSplashInteractor(): Delay {
+        return DelayImpl()
     }
 }

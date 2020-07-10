@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bassam.moviesinc.R
+import com.bassam.moviesinc.ui.common.BaseFragment
 import com.bassam.moviesinc.utils.Extensions.enableFullScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,9 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by Bassam Hamada on 7/7/20.
  */
 @AndroidEntryPoint
-class SplashFragment : Fragment() {
+class SplashFragment : BaseFragment<SplashViewModel>() {
 
-    private val viewModel: SplashViewModel by viewModels()
+    override val viewModel: SplashViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

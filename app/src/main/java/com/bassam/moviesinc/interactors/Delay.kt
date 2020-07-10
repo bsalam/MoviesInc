@@ -9,11 +9,11 @@ import javax.inject.Inject
  */
 private const val splashDelay = 1500L
 
-interface SplashInteractor {
+interface Delay {
     suspend fun delay()
 }
 
-class SplashInteractorImpl @Inject constructor() : SplashInteractor {
+class DelayImpl @Inject constructor() : Delay {
 
     override suspend fun delay() = withContext(Dispatchers.Default) {
         kotlinx.coroutines.delay(splashDelay)

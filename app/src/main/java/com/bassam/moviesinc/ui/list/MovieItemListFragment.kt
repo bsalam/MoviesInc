@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bassam.moviesinc.R
+import com.bassam.moviesinc.ui.common.BaseFragment
 import com.bassam.moviesinc.ui.list.dummy.DummyContent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,9 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * A fragment representing a list of Items.
  */
 @AndroidEntryPoint
-class MovieItemListFragment : Fragment() {
+class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
 
-    private val viewModel: MovieItemListViewModel by viewModels()
+    override val viewModel: MovieItemListViewModel by viewModels()
 
     private var columnCount = 2
 
@@ -29,6 +29,7 @@ class MovieItemListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
+            viewModel.isFav = it.getBoolean(getString(R.string.bundle_is_fav_key))
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
     }
@@ -41,7 +42,7 @@ class MovieItemListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_movie_item_list, container, false)
+        val view = inflater.inflate(R.layout.movie_list_fragment, container, false)
 
         // Set the adapter
         if (view is RecyclerView) {
