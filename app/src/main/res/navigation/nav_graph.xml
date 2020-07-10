@@ -12,7 +12,7 @@
         tools:layout="@layout/splash_fragment" >
         <action
             android:id="@+id/action_splashFragment_to_movieItemFragment"
-            app:destination="@id/movieItemFragment"
+            app:destination="@id/movieItemListFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -22,7 +22,7 @@
         android:label="login_fragment"
         tools:layout="@layout/login_fragment" />
     <fragment
-        android:id="@+id/movieItemFragment"
+        android:id="@+id/movieItemListFragment"
         android:name="com.bassam.moviesinc.ui.list.MovieItemListFragment"
         android:label="fragment_movie_item_list"
         tools:layout="@layout/fragment_movie_item_list" >

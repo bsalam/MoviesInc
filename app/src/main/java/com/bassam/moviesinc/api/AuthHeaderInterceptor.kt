@@ -10,7 +10,7 @@ class AuthHeaderInterceptor() : Interceptor {
 
     companion object {
         private const val KEY_AUTHORIZATION = "Authorization"
-        private const val KEY_CONTENT_TYPE = "Authorization"
+        private const val KEY_CONTENT_TYPE = "Content-Type"
         private const val BEARER = "Bearer "
         private const val CONTENT_TYPE = "application/json;charset=utf-8"
         private const val TOKEN =
@@ -19,10 +19,11 @@ class AuthHeaderInterceptor() : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val builder = request.newBuilder().run {
-            addHeader(KEY_CONTENT_TYPE, CONTENT_TYPE)
-            addHeader(KEY_AUTHORIZATION, TOKEN)
-        }
-        return chain.proceed(builder.build())
+            .newBuilder()
+            .addHeader(KEY_CONTENT_TYPE, CONTENT_TYPE)
+            .addHeader(KEY_AUTHORIZATION, TOKEN)
+            .build()
+
+        return chain.proceed(request)
     }
 }

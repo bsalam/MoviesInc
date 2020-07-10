@@ -7,7 +7,7 @@ import javax.inject.Inject
 /**
  * Created by Bassam Hamada on 7/7/20.
  */
-private const val splashDelay = 2000L
+private const val splashDelay = 1500L
 
 interface SplashInteractor {
     suspend fun delay()

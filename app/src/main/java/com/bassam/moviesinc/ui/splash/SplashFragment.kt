@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bassam.moviesinc.R
 import com.bassam.moviesinc.utils.Extensions.enableFullScreen
@@ -32,8 +33,27 @@ class SplashFragment : Fragment() {
 
         enableFullScreen(true)
 
-        viewModel.isNavigateNext().observe(viewLifecycleOwner, Observer {
-            findNavController().navigate(R.id.action_splashFragment_to_movieItemFragment)
+        viewModel.isShowLogin().observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().navigate(
+                    R.id.loginFragment,
+                    savedInstanceState,
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.splashFragment, true)
+                        .build()
+                )
+            }
+        })
+
+        viewModel.isShowMovieList().observe(viewLifecycleOwner, Observer {
+            if (it)
+                findNavController().navigate(
+                    R.id.movieItemListFragment,
+                    savedInstanceState,
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.splashFragment, true)
+                        .build()
+                )
         })
     }
 

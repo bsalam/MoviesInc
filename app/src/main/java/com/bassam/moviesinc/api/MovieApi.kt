@@ -15,7 +15,7 @@ interface MovieApi {
 
     // request token
     @POST("4/auth/request_token")
-    suspend fun requestToken(): RequestTokenRes
+    suspend fun requestToken(@Body body: RequestTokenBody): RequestTokenRes
 
     // access token
     @POST("4/auth/access_token")
