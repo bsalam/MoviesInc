@@ -16,7 +16,6 @@ class LoginViewModel @ViewModelInject constructor(private val auth: Auth) :
     BaseViewModel() {
 
     val url = MutableLiveData<String>()
-
     val navigateNext = SingleLiveEvent<Boolean>()
 
     init {

@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android">-->
 
-    <TextView
-        android:id="@+id/item_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+<!--    <data>-->
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
+<!--        <variable-->
+<!--            name="optionID"-->
+<!--            type="Integer" />-->
+
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.bassam.moviesinc.ui.list.MovieItemListViewModel" />-->
+<!--    </data>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+        android:minHeight="44dp">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--</layout>-->

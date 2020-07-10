@@ -64,7 +64,6 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         viewModel.navigateNext.observe(viewLifecycleOwner, Observer {
             if (it) {
 
-//                val bundle = bundleOf(getString(R.string.bundle_is_fav_key) to true)
                 findNavController().navigate(
                     R.id.movieItemListFragment,
                     savedInstanceState,
@@ -84,9 +83,4 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
             }
         }
     }
-
-    override fun showLoading(show: Boolean) {
-        super.showLoading(show)
-    }
-
 }

@@ -1,9 +1,11 @@
 package com.bassam.moviesinc.ui.common
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.loading_view.*
 
 
 /**
@@ -26,6 +28,9 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
     }
 
     open fun showLoading(show: Boolean) {
-
+        when (show) {
+            true -> loading_view.visibility = View.VISIBLE
+            false -> loading_view.visibility = View.GONE
+        }
     }
 }

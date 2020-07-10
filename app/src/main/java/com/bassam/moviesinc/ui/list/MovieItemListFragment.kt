@@ -1,16 +1,12 @@
 package com.bassam.moviesinc.ui.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import com.bassam.moviesinc.R
 import com.bassam.moviesinc.ui.common.BaseFragment
-import com.bassam.moviesinc.ui.list.dummy.DummyContent
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -23,15 +19,14 @@ class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
 
     override val viewModel: MovieItemListViewModel by viewModels()
 
-    private var columnCount = 2
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             viewModel.isFav = it.getBoolean(getString(R.string.bundle_is_fav_key))
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+
+        setHasOptionsMenu(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -42,33 +37,43 @@ class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.movie_list_fragment, container, false)
+        return inflater.inflate(R.layout.movie_list_fragment, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyMovieItemRecyclerViewAdapter(DummyContent.ITEMS)
-            }
-        }
-        return view
+//        if (view is RecyclerView) {
+//            with(view) {
+//                layoutManager = when {
+//                    columnCount <= 1 -> LinearLayoutManager(context)
+//                    else -> GridLayoutManager(context, columnCount)
+//                }
+//                adapter = MyMovieItemRecyclerViewAdapter(DummyContent.ITEMS)
+//            }
+//        }
+//        return view
     }
 
-    companion object {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_favorite -> {
+            val bundle = bundleOf(getString(R.string.bundle_is_fav_key) to true)
+            findNavController().navigate(
+                R.id.movieItemListFragment,
+                bundle
+            )
+            true
+        }
 
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            MovieItemListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.action_favorite).isVisible = !viewModel.isFav
     }
 }
