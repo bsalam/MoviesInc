@@ -1,6 +1,8 @@
 package com.bassam.moviesinc.injection
 
 import android.content.Context
+import android.content.SharedPreferences
+import com.bassam.moviesinc.api.MovieApi
 import com.bassam.moviesinc.interactors.AuthInteractor
 import com.bassam.moviesinc.interactors.AuthInteractorImpl
 import dagger.Module
@@ -17,7 +19,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 object AuthInteractorModule {
 
     @Provides
-    fun provideAuthInteractor(@ApplicationContext appContext: Context): AuthInteractor {
-        return AuthInteractorImpl(appContext)
+    fun provideAuthInteractor(
+        @ApplicationContext appContext: Context,
+        movieApi: MovieApi,
+        sharedPreferences: SharedPreferences
+    ): AuthInteractor {
+        return AuthInteractorImpl(appContext, movieApi, sharedPreferences)
     }
 }

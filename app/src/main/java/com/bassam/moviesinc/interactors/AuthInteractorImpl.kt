@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
 import com.bassam.moviesinc.R
 import com.bassam.moviesinc.api.MovieApi
-import com.bassam.moviesinc.api.MovieApiClient
 import com.bassam.moviesinc.api.data.AccessTokenBody
 import com.bassam.moviesinc.api.data.RequestTokenBody
 import com.bassam.moviesinc.api.data.SessionBody
@@ -25,7 +23,11 @@ interface AuthInteractor {
     suspend fun completeAuth()
 }
 
-class AuthInteractorImpl @Inject constructor(private var context: Context) :
+class AuthInteractorImpl @Inject constructor(
+    private var context: Context,
+    private val client: MovieApi,
+    private val sharedPreferences: SharedPreferences
+) :
     AuthInteractor {
 
     companion object {
@@ -33,11 +35,6 @@ class AuthInteractorImpl @Inject constructor(private var context: Context) :
         private const val REDIRECT_URL =
             "com.bassam.moviesinc://approve/callback"
     }
-
-    private var client: MovieApi = MovieApiClient.movieApi
-
-    private var sharedPreferences: SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(context)
 
     private lateinit var requestToken: String
 
@@ -66,6 +63,9 @@ class AuthInteractorImpl @Inject constructor(private var context: Context) :
         }
     }
 
+    /**
+     * get approve URL to load it into browser
+     */
     override suspend fun getApproveUrl(): String = withContext(Dispatchers.IO) {
 
         // get request token
@@ -79,10 +79,16 @@ class AuthInteractorImpl @Inject constructor(private var context: Context) :
         }
     }
 
+    /**
+     * check whether given url is approved
+     */
     override suspend fun isUrlApproved(url: String): Boolean = withContext(Dispatchers.IO) {
         url == REDIRECT_URL
     }
 
+    /**
+     * complete authentication process
+     */
     override suspend fun completeAuth() = withContext(Dispatchers.IO) {
 
         // get access token and account id, and save account id
