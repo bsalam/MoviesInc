@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.addCallback
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.bassam.moviesinc.R
+import com.bassam.moviesinc.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.login_fragment.*
 
@@ -21,13 +21,13 @@ import kotlinx.android.synthetic.main.login_fragment.*
  * Created by Bassam Hamada on 7/7/20.
  */
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment<LoginViewModel>() {
 
     companion object {
         private const val TAG = "redirected_url"
     }
 
-    private val viewModel: LoginViewModel by viewModels()
+    override val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,6 +88,10 @@ class LoginFragment : Fragment() {
                 return true
             }
         }
+    }
+
+    override fun showLoading(show: Boolean) {
+
     }
 
 }
