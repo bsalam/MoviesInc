@@ -2,12 +2,15 @@ package com.bassam.moviesinc.ui.list
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bassam.moviesinc.R
 import com.bassam.moviesinc.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.movie_list_fragment.*
 
 /**
  * Created by Bassam Hamada on 7/7/20.
@@ -25,12 +28,9 @@ class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
         arguments?.let {
             viewModel.isFav = it.getBoolean(getString(R.string.bundle_is_fav_key))
         }
+        viewModel.load()
 
         setHasOptionsMenu(true)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -38,18 +38,14 @@ class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.movie_list_fragment, container, false)
+    }
 
-        // Set the adapter
-//        if (view is RecyclerView) {
-//            with(view) {
-//                layoutManager = when {
-//                    columnCount <= 1 -> LinearLayoutManager(context)
-//                    else -> GridLayoutManager(context, columnCount)
-//                }
-//                adapter = MyMovieItemRecyclerViewAdapter(DummyContent.ITEMS)
-//            }
-//        }
-//        return view
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.getResults().observe(viewLifecycleOwner, Observer {
+            recycler_view.adapter = MovieListRecyclerViewAdapter(it)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
