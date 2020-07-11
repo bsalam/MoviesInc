@@ -15,11 +15,19 @@ import kotlinx.android.synthetic.main.movie_item.view.*
  */
 class MovieListRecyclerViewAdapter(
     private val values: List<Result>,
-    private val onItemClicked: (movieId: Int) -> Unit,
-    private val onMarkFavClicked: (fav: Boolean, movieId: Int) -> Unit,
-    private val showMarkFav: Boolean
+    private val onItemClicked: ((movieId: Int) -> Unit)?,
+    private val onMarkFavClicked: ((fav: Boolean, movieId: Int) -> Unit)?,
+    private val showAddFav: Boolean,
+    private val showRemoveFav: Boolean
 
 ) : RecyclerView.Adapter<MovieListRecyclerViewAdapter.ViewHolder>() {
+    constructor(values: List<Result>) : this(
+        values,
+        null,
+        null,
+        false,
+        false
+    )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -44,27 +52,33 @@ class MovieListRecyclerViewAdapter(
             view.title.text = item.title
             view.rate.text = item.voteAverage.toString()
             view.release.text = item.releaseDate
-            when (showMarkFav) {
+            when (showAddFav) {
                 true -> {
                     view.addFavBtn.visibility = View.VISIBLE
-                    view.removeFavBtn.visibility = View.GONE
                 }
                 false -> {
-                    view.removeFavBtn.visibility = View.VISIBLE
                     view.addFavBtn.visibility = View.GONE
+                }
+            }
+            when (showRemoveFav) {
+                true -> {
+                    view.removeFavBtn.visibility = View.VISIBLE
+                }
+                false -> {
+                    view.removeFavBtn.visibility = View.GONE
                 }
             }
 
             view.addFavBtn.setOnClickListener() {
-                onMarkFavClicked(true, item.id)
+                onMarkFavClicked?.let { it1 -> it1(true, item.id) }
             }
 
             view.removeFavBtn.setOnClickListener() {
-                onMarkFavClicked(false, item.id)
+                onMarkFavClicked?.let { it1 -> it1(false, item.id) }
             }
 
             view.list_item.setOnClickListener {
-                onItemClicked(item.id)
+                onItemClicked?.let { it1 -> it1(item.id) }
             }
         }
     }

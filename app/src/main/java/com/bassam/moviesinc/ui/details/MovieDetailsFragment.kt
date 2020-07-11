@@ -12,10 +12,13 @@ import com.bassam.moviesinc.R
 import com.bassam.moviesinc.api.data.Common
 import com.bassam.moviesinc.api.data.DetailsRes
 import com.bassam.moviesinc.ui.common.BaseFragment
+import com.bassam.moviesinc.ui.list.MovieListRecyclerViewAdapter
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_details_fragment.*
+import kotlinx.android.synthetic.main.movie_list_fragment.*
 import kotlinx.android.synthetic.main.rate_dlg.view.*
+import kotlinx.android.synthetic.main.movie_details_fragment.recycler_view as recycler_view1
 
 
 /**
@@ -77,6 +80,15 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsViewModel>() {
 
         viewModel.getResult().observe(viewLifecycleOwner, Observer {
             bind(it)
+        })
+
+        viewModel.getCast().observe(viewLifecycleOwner, Observer {
+            castResult.text = it
+        })
+
+        viewModel.getRecommendationsResult().observe(viewLifecycleOwner, Observer {
+            recycler_view.adapter =
+                MovieListRecyclerViewAdapter(it)
         })
 
         viewModel.isAddedToFav().observe(viewLifecycleOwner, Observer {

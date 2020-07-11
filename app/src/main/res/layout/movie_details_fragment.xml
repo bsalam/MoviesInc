@@ -115,14 +115,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/overview" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cast_recyclerView"
+        <TextView
+            android:id="@+id/castResult"
             android:layout_width="0dp"
-            android:layout_height="245dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cast" />
+            app:layout_constraintTop_toBottomOf="@+id/cast"
+            tools:text="name(Joker)\nname(Batman)\nname(Cat Woman))" />
 
         <TextView
             android:id="@+id/recommendations"
@@ -134,16 +135,20 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cast_recyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/castResult" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recommendations_recyclerView"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recommendations" />
+            app:layout_constraintTop_toBottomOf="@+id/recommendations"
+            app:spanCount="2"
+            tools:listitem="@layout/movie_item" />
 
         <include
             layout="@layout/loading_view"

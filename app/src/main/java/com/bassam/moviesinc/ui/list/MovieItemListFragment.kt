@@ -45,7 +45,11 @@ class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
 
         viewModel.getResults().observe(viewLifecycleOwner, Observer {
             recycler_view.adapter =
-                MovieListRecyclerViewAdapter(it, onItemClicked, onMarkFavClicked, !viewModel.isFav)
+                MovieListRecyclerViewAdapter(
+                    it, onItemClicked, onMarkFavClicked,
+                    showAddFav = !viewModel.isFav,
+                    showRemoveFav = viewModel.isFav
+                )
         })
 
         viewModel.isAddedToFav().observe(viewLifecycleOwner, Observer {

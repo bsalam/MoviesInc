@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bassam.moviesinc.api.data.DetailsRes
+import com.bassam.moviesinc.api.data.Result
 import com.bassam.moviesinc.interactors.GetDetails
 import com.bassam.moviesinc.interactors.GetRecommendations
 import com.bassam.moviesinc.interactors.MarkFav
@@ -23,9 +24,17 @@ class MovieDetailsViewModel @ViewModelInject constructor(
     private val recommendations: GetRecommendations
 ) : BaseViewModel() {
 
+    companion object {
+        private const val CAST_SEPARATOR = "\n"
+        private const val CAST_CHAR_SEPARATOR = " --- "
+
+    }
+
     var movieId = -1
 
     private val result = MutableLiveData<DetailsRes>()
+    private val recommendationsResult = MutableLiveData<List<Result>>()
+    private val cast = MutableLiveData<String>()
     private val addedToFav = SingleLiveEvent<Boolean>()
     private val rated = SingleLiveEvent<Boolean>()
 
@@ -35,7 +44,20 @@ class MovieDetailsViewModel @ViewModelInject constructor(
             loading.value = true
             // load fav items
             viewModelScope.launch(exceptionHandler) {
+
+                // get movie details
                 result.postValue(getDetails.getDetails(movieId))
+
+                // get cast details
+                cast.postValue(getDetails.getCredits(movieId).cast.joinToString(
+                    separator = CAST_SEPARATOR
+                ) {
+                    it.name + CAST_CHAR_SEPARATOR + it.character
+                })
+
+                // get recommendations list
+                recommendationsResult.postValue(recommendations.getRecommendations(movieId))
+                
                 loading.value = false
             }
         }
@@ -57,6 +79,14 @@ class MovieDetailsViewModel @ViewModelInject constructor(
 
     fun getResult(): LiveData<DetailsRes> {
         return result
+    }
+
+    fun getRecommendationsResult(): LiveData<List<Result>> {
+        return recommendationsResult
+    }
+
+    fun getCast(): LiveData<String> {
+        return cast
     }
 
     fun isAddedToFav(): LiveData<Boolean> {
