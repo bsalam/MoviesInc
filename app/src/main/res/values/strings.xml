@@ -6,6 +6,7 @@
     <string name="recommendations_label">More Like This </string>
     <string name="added_to_fav">Added to Favorite!</string>
     <string name="rate_done">Rate Done!</string>
+    <string name="rate_title">Rate Movie</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
 

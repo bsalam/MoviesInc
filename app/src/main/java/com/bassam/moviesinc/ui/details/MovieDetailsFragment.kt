@@ -16,9 +16,7 @@ import com.bassam.moviesinc.ui.list.MovieListRecyclerViewAdapter
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.movie_details_fragment.*
-import kotlinx.android.synthetic.main.movie_list_fragment.*
 import kotlinx.android.synthetic.main.rate_dlg.view.*
-import kotlinx.android.synthetic.main.movie_details_fragment.recycler_view as recycler_view1
 
 
 /**
@@ -61,7 +59,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsViewModel>() {
         context?.let {
             val mBuilder = AlertDialog.Builder(it)
                 .setView(mDialogView)
-                .setTitle("Login Form")
+                .setTitle(R.string.rate_title)
             val mAlertDialog = mBuilder.show()
             mDialogView.submitBtn.setOnClickListener {
                 mAlertDialog.dismiss()
@@ -87,7 +85,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsViewModel>() {
         })
 
         viewModel.getRecommendationsResult().observe(viewLifecycleOwner, Observer {
-            recycler_view.adapter =
+            recommendationsRecyclerView.adapter =
                 MovieListRecyclerViewAdapter(it)
         })
 

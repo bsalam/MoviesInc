@@ -32,14 +32,14 @@ class MovieItemListViewModel @ViewModelInject constructor(
 
             // load fav items
             viewModelScope.launch(exceptionHandler) {
-                results.postValue(getFav.getFav())
+                results.postValue(getFav.getFav().sortedWith(compareBy { it.title }))
                 loading.value = false
             }
         } else {
 
             // load now playing
             viewModelScope.launch(exceptionHandler) {
-                results.postValue(getNowPlaying.getNowPlaying())
+                results.postValue(getNowPlaying.getNowPlaying().sortedWith(compareBy { it.title }))
                 loading.value = false
             }
         }
