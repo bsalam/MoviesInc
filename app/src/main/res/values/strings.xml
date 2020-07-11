@@ -2,4 +2,6 @@
     <string name="app_name">Movies Inc</string>
     <string name="error_msg">Something Went Wrong!</string>
     <string name="fav_action">Favorite</string>
+    <string name="cast_label">Cast</string>
+    <string name="recommendations_label">More Like This </string>
 </resources>
