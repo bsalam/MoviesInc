@@ -44,7 +44,14 @@ class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.getResults().observe(viewLifecycleOwner, Observer {
-            recycler_view.adapter = MovieListRecyclerViewAdapter(it)
+            recycler_view.adapter =
+                MovieListRecyclerViewAdapter(it, onItemClicked, onMarkFavClicked, !viewModel.isFav)
+        })
+
+        viewModel.isAddedToFav().observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Toast.makeText(activity, R.string.added_to_fav, Toast.LENGTH_SHORT).show()
+            }
         })
     }
 
@@ -71,5 +78,17 @@ class MovieItemListFragment : BaseFragment<MovieItemListViewModel>() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.action_favorite).isVisible = !viewModel.isFav
+    }
+
+    private val onItemClicked: (movieId: Int) -> Unit = { movieId ->
+        val bundle = bundleOf(getString(R.string.bundle_movie_id_key) to movieId)
+        findNavController().navigate(
+            R.id.movieDetailsFragment,
+            bundle
+        )
+    }
+
+    private val onMarkFavClicked: (fav: Boolean, movieId: Int) -> Unit = { fav, movieId ->
+        viewModel.markFav(fav, movieId)
     }
 }

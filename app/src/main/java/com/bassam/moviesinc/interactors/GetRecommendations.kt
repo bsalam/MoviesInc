@@ -10,13 +10,13 @@ import javax.inject.Inject
  * Created by Bassam Hamada on 7/10/20.
  */
 interface GetRecommendations {
-    suspend fun getRecommendations(movieId: String): List<Result>
+    suspend fun getRecommendations(movieId: Int): List<Result>
 }
 
 class GetRecommendationsImpl @Inject constructor(
     private val client: MovieApi
 ) : GetRecommendations {
-    override suspend fun getRecommendations(movieId: String) = withContext(Dispatchers.IO) {
+    override suspend fun getRecommendations(movieId: Int) = withContext(Dispatchers.IO) {
         client.recommendations(movieId).results
     }
 }

@@ -12,5 +12,5 @@ data class MarkFavBody(
     @SerializedName("media_id")
     val mediaId: Int,
     @SerializedName("media_type")
-    val mediaType: String
+    val mediaType: String = "movie"
 )

@@ -12,19 +12,19 @@ import javax.inject.Inject
  */
 
 interface GetDetails {
-    suspend fun getDetails(movieId: String): DetailsRes
-    suspend fun getCredits(movieId: String): CreditsRes
+    suspend fun getDetails(movieId: Int): DetailsRes
+    suspend fun getCredits(movieId: Int): CreditsRes
 }
 
 class GetDetailsImpl @Inject constructor(
     private val client: MovieApi
 ) : GetDetails {
 
-    override suspend fun getDetails(movieId: String): DetailsRes = withContext(Dispatchers.IO) {
+    override suspend fun getDetails(movieId: Int): DetailsRes = withContext(Dispatchers.IO) {
         client.details(movieId)
     }
 
-    override suspend fun getCredits(movieId: String): CreditsRes = withContext(Dispatchers.IO) {
+    override suspend fun getCredits(movieId: Int): CreditsRes = withContext(Dispatchers.IO) {
         client.credits(movieId)
     }
 }

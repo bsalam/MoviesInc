@@ -4,16 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.bassam.moviesinc.R
+import com.bassam.moviesinc.api.data.Common
+import com.bassam.moviesinc.api.data.DetailsRes
+import com.bassam.moviesinc.ui.common.BaseFragment
+import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.movie_details_fragment.*
+import kotlinx.android.synthetic.main.rate_dlg.view.*
+
 
 /**
  * Created by Bassam Hamada on 7/7/20.
  */
-class MovieDetailsFragment : Fragment() {
+@AndroidEntryPoint
+class MovieDetailsFragment : BaseFragment<MovieDetailsViewModel>() {
 
-    private val viewModel: MovieDetailsViewModel by viewModels()
+    override val viewModel: MovieDetailsViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            viewModel.movieId = it.getInt(getString(R.string.bundle_movie_id_key))
+        }
+        viewModel.load()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,9 +41,68 @@ class MovieDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.movie_details_fragment, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        addFavBtn.setOnClickListener {
+            viewModel.markFav()
+        }
+
+        rateBtn.setOnClickListener {
+            showRateDialog()
+        }
+    }
+
+    private fun showRateDialog() {
+        val mDialogView = LayoutInflater.from(context).inflate(R.layout.rate_dlg, null)
+        context?.let {
+            val mBuilder = AlertDialog.Builder(it)
+                .setView(mDialogView)
+                .setTitle("Login Form")
+            val mAlertDialog = mBuilder.show()
+            mDialogView.submitBtn.setOnClickListener {
+                mAlertDialog.dismiss()
+                val rating = mDialogView.rateBar.rating
+                viewModel.rate(rating.toDouble())
+            }
+            mDialogView.cancelBtn.setOnClickListener {
+                //dismiss dialog
+                mAlertDialog.dismiss()
+            }
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
+
+        viewModel.getResult().observe(viewLifecycleOwner, Observer {
+            bind(it)
+        })
+
+        viewModel.isAddedToFav().observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Toast.makeText(activity, R.string.added_to_fav, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.isRated().observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Toast.makeText(activity, R.string.rate_done, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun bind(result: DetailsRes?) {
+        result?.let {
+            Glide.with(this)
+                .load(Common.IMAGE_URL_W500 + it.posterPath)
+                .into(poster)
+            title.text = it.title
+            release.text = it.releaseDate
+            rate.text = it.voteAverage.toString()
+            genre.text = it.genres[1].name // TODO enhance later to show all
+            overview.text = result.overview
+        }
     }
 
 }

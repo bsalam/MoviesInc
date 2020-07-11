@@ -11,15 +11,15 @@ import javax.inject.Inject
  * Created by Bassam Hamada on 7/10/20.
  */
 interface MarkFav {
-    suspend fun markFav(fav: Boolean, id: Int, type: String): MarkFavRes
+    suspend fun markFav(fav: Boolean, id: Int): MarkFavRes
 }
 
 class MarkFavImpl @Inject constructor(
     private val client: MovieApi,
     private val auth: Auth
 ) : MarkFav {
-    override suspend fun markFav(fav: Boolean, id: Int, type: String) =
+    override suspend fun markFav(fav: Boolean, id: Int) =
         withContext(Dispatchers.IO) {
-            client.markFav(auth.getAccountId(), auth.getSessionId(), MarkFavBody(fav, id, type))
+            client.markFav(auth.getAccountId(), auth.getSessionId(), MarkFavBody(fav, id))
         }
 }

@@ -2,5 +2,6 @@
     <string name="pref_session_id_key" translatable="false">session_id</string>
     <string name="pref_account_id_key" translatable="false">account_id</string>
     <string name="bundle_is_fav_key" translatable="false">is_fav</string>
+    <string name="bundle_movie_id_key" translatable="false">movie_id</string>
 
 </resources>

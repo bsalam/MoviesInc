@@ -19,7 +19,7 @@ object MovieApiClient {
                     .addInterceptor(AuthHeaderInterceptor())
                     // add log interceptor
                     .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BASIC
+                        level = HttpLoggingInterceptor.Level.BODY
                     })
                     .build()
             )

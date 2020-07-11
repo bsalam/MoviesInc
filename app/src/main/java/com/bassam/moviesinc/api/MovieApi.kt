@@ -35,21 +35,21 @@ interface MovieApi {
     // details
     @GET("3/movie/{movie_id}")
     suspend fun details(
-        @Path("movie_id", encoded = true) movieId: String,
+        @Path("movie_id", encoded = true) movieId: Int,
         @Query("language") lang: String = DEF_LANG
     ): DetailsRes
 
     // credits
     @GET("3/movie/{movie_id}/credits")
     suspend fun credits(
-        @Path("movie_id", encoded = true) movieId: String,
+        @Path("movie_id", encoded = true) movieId: Int,
         @Query("language") lang: String = DEF_LANG
     ): CreditsRes
 
     // recommendation
     @GET("3/movie/{movie_id}/recommendations")
     suspend fun recommendations(
-        @Path("movie_id", encoded = true) movieId: String,
+        @Path("movie_id", encoded = true) movieId: Int,
         @Query("language") lang: String = DEF_LANG,
         @Query("page") page: Int = DEF_PAGE
     ): RecommendationsRes
@@ -57,7 +57,7 @@ interface MovieApi {
     // rate
     @POST("3/movie/{movie_id}/rating")
     suspend fun rate(
-        @Path("movie_id", encoded = true) movieId: String,
+        @Path("movie_id", encoded = true) movieId: Int,
         @Query("session_id") sessionId: String,
         @Body body: RateBody
     ): RateRes
